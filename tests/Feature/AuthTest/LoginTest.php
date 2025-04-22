@@ -1,11 +1,15 @@
 <?php
 
-namespace Tests\Feature\UserTest\AuthenticationTest;
+namespace Tests\Feature\AuthTest;
 
+use App\Events\Auth\UserLoggedIn;
+use App\Events\Auth\UserLoggedOut;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Activitylog\Models\Activity;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -20,7 +24,8 @@ class LoginTest extends TestCase
 
     public function test_if_user_can_login(): void
     {
-        User::factory()->create([
+        Event::fake();
+        $user = User::factory()->create([
             'email' => 'exemplo@email.com',
             'password' => Hash::make('password')
         ]);
@@ -41,6 +46,10 @@ class LoginTest extends TestCase
                 'expires_in' => config('sanctum.expiration'),
             ]
         ]);
+
+        Event::assertDispatched(UserLoggedIn::class, function ($event) use ($user) {
+            return $event->user->email === $user->email;
+        });
     }
 
     public function test_if_user_cannot_login_with_invalid_credentials(): void
@@ -65,6 +74,11 @@ class LoginTest extends TestCase
                 'message' => 'Credenciais inválidas!'
             ]
         ]);
+
+        $lastActivity = Activity::all()->last();
+
+        $this->assertEquals('authentication', $lastActivity->log_name);
+        $this->assertEquals('login_failed', $lastActivity->event);
     }
 
     public function test_if_user_cannot_login_with_empty_data(): void
