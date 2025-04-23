@@ -2,8 +2,7 @@
 
 namespace Tests\Feature\AuthTest;
 
-use App\Events\Auth\UserLoggedIn;
-use App\Events\Auth\UserLoggedOut;
+use App\Events\Auth\UserLoggedInEvent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -47,7 +46,7 @@ class LoginTest extends TestCase
             ]
         ]);
 
-        Event::assertDispatched(UserLoggedIn::class, function ($event) use ($user) {
+        Event::assertDispatched(UserLoggedInEvent::class, function ($event) use ($user) {
             return $event->user->email === $user->email;
         });
     }

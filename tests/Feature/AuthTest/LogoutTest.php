@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\AuthTest;
 
-use App\Events\Auth\UserLoggedOut;
+use App\Events\Auth\UserLoggedOutEvent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,7 +39,7 @@ class LogoutTest extends TestCase
             'name' => 'token',
         ]);
 
-        Event::assertDispatched(UserLoggedOut::class, function ($event) use ($user) {
+        Event::assertDispatched(UserLoggedOutEvent::class, function ($event) use ($user) {
             return $event->user->email === $user->email;
         });
     }

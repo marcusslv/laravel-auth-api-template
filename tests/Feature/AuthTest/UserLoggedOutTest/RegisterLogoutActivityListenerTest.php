@@ -3,6 +3,7 @@
 namespace Tests\Feature\AuthTest\UserLoggedOutTest;
 
 use App\Events\Auth\UserLoggedOut;
+use App\Events\Auth\UserLoggedOutEvent;
 use App\Listeners\Auth\UserLoggedOut\RegisterLogoutActivityListener;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +17,7 @@ class RegisterLogoutActivityListenerTest extends TestCase
     public function test_if_activity_logout_is_save(): void
     {
         $user = User::factory()->create();
-        $event = new UserLoggedOut($user);
+        $event = new UserLoggedOutEvent($user);
         $listener = new RegisterLogoutActivityListener();
 
         $listener->handle($event);

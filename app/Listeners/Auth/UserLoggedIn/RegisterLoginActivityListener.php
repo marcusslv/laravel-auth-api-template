@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Auth\UserLoggedIn;
 
-use App\Events\Auth\UserLoggedIn;
+use App\Events\Auth\UserLoggedInEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RegisterLoginActivityListener implements ShouldQueue
@@ -12,7 +12,7 @@ class RegisterLoginActivityListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(UserLoggedIn $event): void
+    public function handle(UserLoggedInEvent $event): void
     {
         activity()
             ->useLog('authentication')

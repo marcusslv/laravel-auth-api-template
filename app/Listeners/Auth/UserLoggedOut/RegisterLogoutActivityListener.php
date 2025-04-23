@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Auth\UserLoggedOut;
 
-use App\Events\Auth\UserLoggedOut;
+use App\Events\Auth\UserLoggedOutEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RegisterLogoutActivityListener implements ShouldQueue
@@ -12,7 +12,7 @@ class RegisterLogoutActivityListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(UserLoggedOut $event): void
+    public function handle(UserLoggedOutEvent $event): void
     {
         activity()
             ->useLog('authentication')

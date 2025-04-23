@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\AuthTest\UserLoggedInTest;
 
-use App\Events\Auth\UserLoggedIn;
+use App\Events\Auth\UserLoggedInEvent;
 use App\Listeners\Auth\UserLoggedIn\RegisterLoginActivityListener;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ class RegisterLoginActivityListenerTest extends TestCase
     public function test_if_activity_login_is_save(): void
     {
         $user = User::factory()->create();
-        $event = new UserLoggedIn($user);
+        $event = new UserLoggedInEvent($user);
         $listener = new RegisterLoginActivityListener();
 
         $listener->handle($event);

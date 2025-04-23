@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Domains\User\Services\UserService;
-use App\Events\Auth\UserLoggedIn;
-use App\Events\Auth\UserLoggedOut;
+use App\Events\Auth\UserLoggedInEvent;
+use App\Events\Auth\UserLoggedOutEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('apiToken')->plainTextToken;
 
-        UserLoggedIn::dispatch($user);
+        UserLoggedInEvent::dispatch($user);
 
         return $this->ok([
             'access_token' => $token,
@@ -53,7 +53,7 @@ class AuthController extends Controller
         $user = auth()->user();
         $user->tokens()->delete();
 
-        UserLoggedOut::dispatch($user);
+        UserLoggedOutEvent::dispatch($user);
 
         return $this->success('Logout realizado com sucesso!');
     }
