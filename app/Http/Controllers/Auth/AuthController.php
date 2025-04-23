@@ -15,15 +15,13 @@ class AuthController extends Controller
 {
     public function __construct(
         protected UserService $userService,
-    )
-    {
+    ) {}
 
-    }
     public function login(LoginRequest $request): JsonResponse
     {
         $user = $this->userService->findOneWhere(['email' => $request->email]);
 
-        if (!Hash::check($request->password, $user->password)) {
+        if (! Hash::check($request->password, $user->password)) {
             activity()
                 ->useLog('authentication')
                 ->event('login_failed')

@@ -33,7 +33,7 @@ class CreateUserTest extends TestCase
             'response' => [
                 'name' => 'Test User',
                 'email' => 'test.user@exemplo.com',
-            ]
+            ],
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -71,7 +71,7 @@ class CreateUserTest extends TestCase
                 'name' => ['The name field is required.'],
                 'email' => ['The email field is required.'],
                 'password' => ['The password field is required.'],
-            ]
+            ],
         ]);
     }
 }

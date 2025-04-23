@@ -13,13 +13,12 @@ class UserUpdatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public readonly User $user)
-    {}
+    public function __construct(public readonly User $user) {}
 
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name')
+            new PrivateChannel('channel-name'),
         ];
     }
 }

@@ -2,7 +2,4 @@
 
 namespace App\Domains\Abstracts;
 
-interface ServiceInterface
-{
-
-}
+interface ServiceInterface {}

@@ -2,8 +2,8 @@
 
 namespace App\Domains\User\Services;
 
-use App\Domains\User\Repositories\UserRepository;
 use App\Domains\Abstracts\AbstractService;
+use App\Domains\User\Repositories\UserRepository;
 use App\Events\User\UserCreatedEvent;
 use App\Events\User\UserUpdatedEvent;
 use Illuminate\Support\Facades\Hash;

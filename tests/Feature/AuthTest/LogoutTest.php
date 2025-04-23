@@ -13,7 +13,7 @@ class LogoutTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -31,7 +31,7 @@ class LogoutTest extends TestCase
             'type' => 'success',
             'status' => 200,
             'show' => true,
-            'message' => 'Logout realizado com sucesso!'
+            'message' => 'Logout realizado com sucesso!',
         ]);
 
         $this->assertDatabaseMissing('personal_access_tokens', [

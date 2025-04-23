@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\AbstractController;
 use App\Domains\User\Services\UserService;
+use App\Http\Controllers\AbstractController;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
-
 
 class UserController extends AbstractController
 {

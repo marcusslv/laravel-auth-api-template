@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\AuthTest\UserLoggedOutTest;
 
-use App\Events\Auth\UserLoggedOut;
 use App\Events\Auth\UserLoggedOutEvent;
 use App\Listeners\Auth\UserLoggedOut\RegisterLogoutActivityListener;
 use App\Models\User;
@@ -18,7 +17,7 @@ class RegisterLogoutActivityListenerTest extends TestCase
     {
         $user = User::factory()->create();
         $event = new UserLoggedOutEvent($user);
-        $listener = new RegisterLogoutActivityListener();
+        $listener = new RegisterLogoutActivityListener;
 
         $listener->handle($event);
 

@@ -17,7 +17,7 @@ class RegisterLoginActivityListenerTest extends TestCase
     {
         $user = User::factory()->create();
         $event = new UserLoggedInEvent($user);
-        $listener = new RegisterLoginActivityListener();
+        $listener = new RegisterLoginActivityListener;
 
         $listener->handle($event);
 

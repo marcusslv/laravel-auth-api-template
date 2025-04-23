@@ -20,10 +20,9 @@ class UpdateUserTest extends TestCase
             'name' => 'Test User',
         ]);
 
-
         $response = $this->actingAs($userAdministrator, 'sanctum')
             ->putJson("api/users/{$user->id}", [
-                "name" => "Updated User",
+                'name' => 'Updated User',
             ]);
 
         $response->assertStatus(200);
@@ -55,7 +54,7 @@ class UpdateUserTest extends TestCase
 
         $response = $this->actingAs($userAdministrator, 'sanctum')
             ->putJson("api/users/{$user->id}", [
-                "name" => "",
+                'name' => '',
             ]);
 
         $response->assertStatus(422);

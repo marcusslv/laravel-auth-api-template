@@ -15,23 +15,22 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }
-
 
     public function test_if_user_can_login(): void
     {
         Event::fake();
         $user = User::factory()->create([
             'email' => 'exemplo@email.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
         ]);
 
         $response = $this->postJson('api/auth/login', [
             'email' => 'exemplo@email.com',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200);
@@ -43,7 +42,7 @@ class LoginTest extends TestCase
                 'access_token' => data_get($response, 'data.access_token'),
                 'token_type' => 'Bearer',
                 'expires_in' => config('sanctum.expiration'),
-            ]
+            ],
         ]);
 
         Event::assertDispatched(UserLoggedInEvent::class, function ($event) use ($user) {
@@ -55,12 +54,12 @@ class LoginTest extends TestCase
     {
         User::factory()->create([
             'email' => 'exemplo@email.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
         ]);
 
         $response = $this->postJson('api/auth/login', [
             'email' => 'exemplo@email.com',
-            'password' => 'password_invalid'
+            'password' => 'password_invalid',
         ]);
 
         $response->assertStatus(401);
@@ -70,8 +69,8 @@ class LoginTest extends TestCase
             'show' => true,
             'message' => 'Credenciais inválidas!',
             'errors' => [
-                'message' => 'Credenciais inválidas!'
-            ]
+                'message' => 'Credenciais inválidas!',
+            ],
         ]);
 
         $lastActivity = Activity::all()->last();
@@ -84,7 +83,7 @@ class LoginTest extends TestCase
     {
         $response = $this->postJson('api/auth/login', [
             'email' => '',
-            'password' => ''
+            'password' => '',
         ]);
 
         $response->assertStatus(422);
@@ -95,8 +94,8 @@ class LoginTest extends TestCase
             'message' => 'The email field is required.',
             'errors' => [
                 'email' => ['The email field is required.'],
-                'password' => ['The password field is required.']
-            ]
+                'password' => ['The password field is required.'],
+            ],
         ]);
     }
 }
