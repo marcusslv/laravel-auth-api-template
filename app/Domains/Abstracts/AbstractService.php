@@ -45,7 +45,7 @@ abstract class AbstractService implements ServiceInterface
 	 * @param array $data
 	 * @return array
 	 */
-	public function beforeSave(array $data)
+	public function beforeSave(array $data): array
 	{
 		return $data;
 	}

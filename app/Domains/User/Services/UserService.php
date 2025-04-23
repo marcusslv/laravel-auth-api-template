@@ -4,11 +4,31 @@ namespace App\Domains\User\Services;
 
 use App\Domains\User\Repositories\UserRepository;
 use App\Domains\Abstracts\AbstractService;
+use App\Events\User\UserCreated;
+use Illuminate\Support\Facades\Hash;
 
 class UserService extends AbstractService
 {
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function beforeSave(array $data): array
+    {
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        unset($data['password_confirmation']);
+
+        return $data;
+    }
+
+    public function afterSave($entity, array $params)
+    {
+        UserCreated::dispatch($entity);
+
+        return $entity;
     }
 }

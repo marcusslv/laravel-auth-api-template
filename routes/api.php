@@ -16,3 +16,8 @@ Route::post('/auth/logout', [\App\Http\Controllers\Auth\AuthController::class, '
     ->name('auth.logout')
     ->middleware('auth:sanctum')
     ->withoutMiddleware([\Illuminate\Routing\Middleware\SubstituteBindings::class]);
+
+Route::apiResource('users', \App\Http\Controllers\User\UserController::class)
+    ->only(['index', 'show', 'update', 'destroy', 'store'])
+    ->middleware('auth:sanctum')
+    ->withoutMiddleware([\Illuminate\Routing\Middleware\SubstituteBindings::class]);
