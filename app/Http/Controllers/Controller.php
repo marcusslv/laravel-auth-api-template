@@ -16,7 +16,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-     protected $messageSuccessDefault = 'Operação realizada com com sucesso';
+     protected $messageSuccessDefault = 'Operação realizada com sucesso';
 	 protected $messageErrorDefault = 'Ops';
 	 const TYPE_SUCCESS = 'success';
 	 const TYPE_ERROR = 'error';

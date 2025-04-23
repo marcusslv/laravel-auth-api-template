@@ -85,13 +85,13 @@ abstract class AbstractService implements ServiceInterface
 	 * @return mixed
 	 * @throws \Exception
 	 */
-	public function update($id, array $data)
+	public function update($id, array $data): void
 	{
 		$data = $this->beforeUpdate($id, $data);
-		$this->validateOnUpdate($id, $data);
+		$data = $this->validateOnUpdate($id, $data);
 		$entity = $this->find($id);
-		$this->afterUpdate($entity, $data);
-		return $this->repository->update($entity, $data);
+        $this->repository->update($entity, $data);
+        $this->afterUpdate($entity, $data);
 	}
 
 	public function afterUpdate($entity, array $params)
@@ -143,7 +143,7 @@ abstract class AbstractService implements ServiceInterface
 	 * @param $id
 	 * @param array $params
 	 */
-	public function validateOnUpdate($id, array $params)
+	public function validateOnUpdate($id, array $params): array
 	{
         return $params;
 	}

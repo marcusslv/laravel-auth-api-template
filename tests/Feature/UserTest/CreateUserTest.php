@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\UserTest;
 
-use App\Events\User\UserCreated;
+use App\Events\User\UserCreatedEvent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -12,7 +12,7 @@ class CreateUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_authentication_create_other_user()
+    public function test_if_user_administrator_can_create_user()
     {
         Event::fake();
         $loggedUser = User::factory()->create();
@@ -42,14 +42,14 @@ class CreateUserTest extends TestCase
         ]);
 
         Event::assertDispatched(
-            UserCreated::class,
+            UserCreatedEvent::class,
             function ($event) {
                 return $event->user->email === 'test.user@exemplo.com';
             }
         );
     }
 
-    public function test_cannot_create_user_without_data()
+    public function test_if_user_administrator_cannot_create_user_with_invalid_data()
     {
         $loggedUser = User::factory()->create();
 

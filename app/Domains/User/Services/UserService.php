@@ -4,7 +4,8 @@ namespace App\Domains\User\Services;
 
 use App\Domains\User\Repositories\UserRepository;
 use App\Domains\Abstracts\AbstractService;
-use App\Events\User\UserCreated;
+use App\Events\User\UserCreatedEvent;
+use App\Events\User\UserUpdatedEvent;
 use Illuminate\Support\Facades\Hash;
 
 class UserService extends AbstractService
@@ -27,8 +28,13 @@ class UserService extends AbstractService
 
     public function afterSave($entity, array $params)
     {
-        UserCreated::dispatch($entity);
+        UserCreatedEvent::dispatch($entity);
 
         return $entity;
+    }
+
+    public function afterUpdate($entity, array $params): void
+    {
+        UserUpdatedEvent::dispatch($entity);
     }
 }
