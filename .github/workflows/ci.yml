@@ -36,9 +36,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install -n --prefer-dist
 
-      - name: Grant privileges to test user
+      - name: Grant MySQL privileges to test user
         run: |
-          mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' WITH GRANT OPTION;"
+          mysql -h127.0.0.1 -P3306 -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' WITH GRANT OPTION;"
 
       - name: Prepare Laravel Application
         run: |
