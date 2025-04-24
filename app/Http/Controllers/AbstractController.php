@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -16,17 +17,30 @@ abstract class AbstractController extends Controller
 
     protected $requestValidateUpdate;
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
+        if (isset($request->with)) {
+            $this->with = $request->with;
+        }
+
+        $withoutPagination = filter_var(
+            $request->get('without_pagination', false),
+            FILTER_VALIDATE_BOOLEAN
+        );
+        $direction = $request->get('direction', 'asc');
+        $orderBy = $request->get('order_by', 'id');
+
+        if ($withoutPagination) {
+            $items = $this->service->getAllWithoutPagination($request->all(), $this->with, $orderBy, $direction);
+
+            return $this->ok($items->toArray());
+        }
+
         $items = $this
             ->service
-            ->getAll($request->all(), $this->with)
-            ->toArray();
+            ->getAll($request->all(), $this->with);
 
-        return $this->ok($items);
+        return $this->ok($items->toArray());
     }
 
     /**

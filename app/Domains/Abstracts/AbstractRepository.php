@@ -3,6 +3,8 @@
 namespace App\Domains\Abstracts;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 abstract class AbstractRepository implements RepositoryInterface
@@ -17,25 +19,30 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model;
     }
 
-    /**
-     * @param  null  $with
-     * @return mixed
-     */
-    public function all($params = null, $with = [])
+    public function all(array $whereParams = [], array $with = [], int $paginationLength = 10): LengthAwarePaginator
     {
-        return $this->getModel()->with($with)->query($params)->paginate(20)->withQueryString();
+        $whereParams = array_filter(
+            $whereParams,
+            fn ($key) => in_array($key, $this->model->getFillable()),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        return $this->getModel()->where($whereParams)->with($with)->paginate($paginationLength);
     }
 
-    /**
-     * Method allWithOutPaginate
-     *
-     * @param  $params  $params [explicite description]
-     * @param  $with  $with [explicite description]
-     * @return void
-     */
-    public function allWithOutPaginate($params = null, $with = [])
-    {
-        return $this->getModel()->with($with)->query($params)->get();
+    public function allWithOutPaginate(
+        array $whereParams = [],
+        array $with = [],
+        string $orderBy = 'id',
+        string $direction = 'asc'
+    ): Collection {
+        $whereParams = array_filter(
+            $whereParams,
+            fn ($key) => in_array($key, $this->model->getFillable()),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        return $this->getModel()->where($whereParams)->with($with)->orderBy($orderBy, $direction)->get();
     }
 
     /**

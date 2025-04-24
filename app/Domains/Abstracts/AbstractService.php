@@ -3,6 +3,8 @@
 namespace App\Domains\Abstracts;
 
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -15,9 +17,31 @@ abstract class AbstractService implements ServiceInterface
     /**
      * @return mixed
      */
-    public function getAll(array $params = [])
+    public function getAll(array $params = [], array $with = []): LengthAwarePaginator
     {
-        return $this->repository->all($params, $this->with);
+        $params = $this->cleanPaginationParams($params);
+
+        return $this->getRepository()->all($params, $with);
+    }
+
+    private function cleanPaginationParams(array $params): array
+    {
+        $clean = ['page', 'per_page', 'with', 'without_pagination'];
+
+        return array_diff_key($params, array_flip($clean));
+    }
+
+    /**
+     * Return all records from the repository without pagination.
+     */
+    public function getAllWithoutPagination(
+        array $params = [],
+        array $with = [],
+        string $orderBy = 'id',
+        string $direction = 'asc'
+    ): Collection
+    {
+        return $this->getRepository()->allWithOutPaginate($params, $with, $orderBy, $direction);
     }
 
     /**
