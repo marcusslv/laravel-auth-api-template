@@ -39,8 +39,7 @@ abstract class AbstractService implements ServiceInterface
         array $with = [],
         string $orderBy = 'id',
         string $direction = 'asc'
-    ): Collection
-    {
+    ): Collection {
         return $this->getRepository()->allWithOutPaginate($params, $with, $orderBy, $direction);
     }
 

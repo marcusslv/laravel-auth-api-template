@@ -19,7 +19,7 @@ class ReadUserTest extends TestCase
             ->getJson(route('users.index'));
 
         $response->assertStatus(200);
-//        dd($response->json());
+        //        dd($response->json());
         $response->assertJsonStructure([
             'type',
             'status',
@@ -34,25 +34,25 @@ class ReadUserTest extends TestCase
                         'created_at',
                     ],
                 ],
-                "first_page_url",
-                "from",
-                "last_page",
-                "last_page_url",
-                "links" => [
-                    "*" => [
-                    "url",
-                    "label",
-                    "active",
-                  ]
+                'first_page_url',
+                'from',
+                'last_page',
+                'last_page_url',
+                'links' => [
+                    '*' => [
+                        'url',
+                        'label',
+                        'active',
+                    ],
                 ],
-                "next_page_url",
-                "path",
-                "per_page",
-                "prev_page_url",
-                "to",
-                "total",
+                'next_page_url',
+                'path',
+                'per_page',
+                'prev_page_url',
+                'to',
+                'total',
             ],
-            'show'
+            'show',
         ]);
     }
 
@@ -62,7 +62,7 @@ class ReadUserTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('users.index', ['without_pagination' => true,]));
+            ->getJson(route('users.index', ['without_pagination' => true]));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -77,7 +77,7 @@ class ReadUserTest extends TestCase
                     'created_at',
                 ],
             ],
-            'show'
+            'show',
         ]);
     }
 
@@ -100,7 +100,7 @@ class ReadUserTest extends TestCase
                 'email_verified_at',
                 'created_at',
             ],
-            'show'
+            'show',
         ]);
     }
 }
