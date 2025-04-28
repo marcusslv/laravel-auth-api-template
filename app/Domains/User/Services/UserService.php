@@ -37,4 +37,16 @@ class UserService extends AbstractService
     {
         UserUpdatedEvent::dispatch($entity);
     }
+
+    public function validateOnDelete($id)
+    {
+        $result = $this->repository->find($id);
+        if ($result == null) {
+            throw new \Exception('Objeto não encontrado na base de dados', 404);
+        }
+
+        if ($result->id == auth()->user()->id) {
+            throw new \Exception('Você não pode excluir a si mesmo', 403);
+        }
+    }
 }

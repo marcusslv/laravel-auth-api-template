@@ -133,7 +133,7 @@ abstract class AbstractController extends Controller
 
             return $this->success($this->messageSuccessDefault);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage());
+            return $this->error($e->getMessage(), [], $e->getCode());
         }
     }
 
