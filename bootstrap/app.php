@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'type' => 'error',
                 'status' => Response::HTTP_UNAUTHORIZED,
                 'message' => $e->getMessage(),
-                'show' => false
+                'show' => false,
             ], Response::HTTP_UNAUTHORIZED);
         });
     })->create();

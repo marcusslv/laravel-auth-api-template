@@ -16,14 +16,14 @@ class DeleteUserTest extends TestCase
         $admin = User::factory()->create();
 
         $response = $this->actingAs($admin, 'sanctum')
-            ->deleteJson('api/users/' . $user->id);
+            ->deleteJson('api/users/'.$user->id);
 
         $response->assertStatus(200);
         $response->assertJson([
             'type' => 'success',
             'status' => 200,
             'message' => 'Operação realizada com sucesso',
-            'show' => true
+            'show' => true,
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -37,14 +37,14 @@ class DeleteUserTest extends TestCase
         $admin = User::factory()->create();
 
         $response = $this->actingAs($admin, 'sanctum')
-            ->deleteJson('api/users/' . $admin->id);
+            ->deleteJson('api/users/'.$admin->id);
 
         $response->assertStatus(403);
         $response->assertJson([
             'type' => 'error',
             'status' => 403,
             'message' => 'Você não pode excluir a si mesmo',
-            'show' => true
+            'show' => true,
         ]);
 
         $this->assertDatabaseMissing('users', [
@@ -65,7 +65,7 @@ class DeleteUserTest extends TestCase
             'type' => 'error',
             'status' => 404,
             'message' => 'Objeto não encontrado na base de dados',
-            'show' => true
+            'show' => true,
         ]);
     }
 }
