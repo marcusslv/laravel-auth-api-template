@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\User\Controllers\User;
 
 use App\Domains\User\Services\UserService;
-use App\Http\Controllers\AbstractController;
+use App\Http\Controllers\User\Controllers\AbstractController;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 

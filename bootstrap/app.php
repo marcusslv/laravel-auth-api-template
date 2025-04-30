@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -23,5 +25,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 'errors' => $e->validator->errors()->toArray(),
                 'show' => false,
             ], 422);
+        });
+
+        $exceptions->render(function (AuthenticationException $e) {
+            return response()->json([
+                'type' => 'error',
+                'status' => Response::HTTP_UNAUTHORIZED,
+                'message' => $e->getMessage(),
+                'show' => false
+            ], Response::HTTP_UNAUTHORIZED);
         });
     })->create();
