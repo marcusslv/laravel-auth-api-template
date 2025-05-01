@@ -1,22 +1,28 @@
 <?php
 
-namespace Tests\Feature\UserTest;
+namespace Tests\Feature\RoleTest;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class ReadUserTest extends TestCase
+class ReadRoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_if_user_administrator_can_lists_all_users_with_pagination(): void
+    public function test_if_role_administrator_can_lists_all_roles_with_pagination(): void
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
+        Role::create([
+            'name' => 'test_role',
+            'guard_name' => 'sanctum',
+            'description' => 'Test role description',
+        ]);
 
         $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('users.index'));
+            ->getJson(route('roles.index'));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -28,8 +34,8 @@ class ReadUserTest extends TestCase
                     '*' => [
                         'id',
                         'name',
-                        'email',
-                        'email_verified_at',
+                        'guard_name',
+                        'description',
                         'created_at',
                     ],
                 ],
@@ -55,13 +61,18 @@ class ReadUserTest extends TestCase
         ]);
     }
 
-    public function test_if_user_administrator_can_lists_all_users_without_pagination(): void
+    public function test_if_role_administrator_can_lists_all_roles_without_pagination(): void
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
+        Role::create([
+            'name' => 'test_role',
+            'guard_name' => 'sanctum',
+            'description' => 'Test role description',
+        ]);
 
         $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('users.index', ['without_pagination' => true]));
+            ->getJson(route('roles.index', ['without_pagination' => true]));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -71,8 +82,8 @@ class ReadUserTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'email',
-                    'email_verified_at',
+                    'guard_name',
+                    'description',
                     'created_at',
                 ],
             ],
@@ -80,13 +91,18 @@ class ReadUserTest extends TestCase
         ]);
     }
 
-    public function test_it_shows_a_single_user()
+    public function test_it_shows_a_single_role()
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
+        $role = Role::create([
+            'name' => 'test_role',
+            'guard_name' => 'sanctum',
+            'description' => 'Test role description',
+        ]);
 
         $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('users.show', ['user' => $user->id]));
+            ->getJson(route('roles.show', ['role' => $role->id]));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -95,8 +111,9 @@ class ReadUserTest extends TestCase
             'data' => [
                 'id',
                 'name',
-                'email',
-                'email_verified_at',
+                'guard_name',
+                'description',
+                'updated_at',
                 'created_at',
             ],
             'show',

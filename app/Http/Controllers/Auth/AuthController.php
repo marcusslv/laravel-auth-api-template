@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Domains\User\Services\UserService;
 use App\Events\Auth\UserLoggedInEvent;
 use App\Events\Auth\UserLoggedOutEvent;
-use App\Http\Controllers\User\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;

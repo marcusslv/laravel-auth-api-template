@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

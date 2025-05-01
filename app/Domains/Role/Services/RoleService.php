@@ -11,4 +11,21 @@ class RoleService extends AbstractService
     {
         $this->repository = $repository;
     }
+
+    public function validateOnUpdate($id, array $params): array
+    {
+        if (empty($params['name'])) {
+            unset($params['name']);
+        }
+
+        if (empty($params['guard_name'])) {
+            unset($params['guard_name']);
+        }
+
+        if (empty($params['description'])) {
+            unset($params['description']);
+        }
+
+        return $params;
+    }
 }
