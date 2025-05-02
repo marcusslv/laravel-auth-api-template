@@ -68,7 +68,7 @@ Sugestões de nomes para o repositório:
 - CRUD completo de usuários
 - CRUD completo de roles (via Spatie)
 - Proteção de rotas com middleware de roles
-- Seeders para dados iniciais: roles e usuário admin
+- Comando para setup dos dados iniciais: roles e super usuário
 - Logs de acesso em banco (login/logout/falha)
 
 ---
@@ -76,7 +76,7 @@ Sugestões de nomes para o repositório:
 ## 🔐 Segurança e Middleware
 
 - Middleware `auth:sanctum` para rotas protegidas
-- Middleware para controle de acesso baseado em permissões (`role`, `permission`)
+- Middleware para controle de acesso baseado em funções (`role`)
 - Rate limiting e CORS configuráveis
 - Proteção contra acesso não autorizado via middleware personalizado
 
@@ -84,9 +84,8 @@ Sugestões de nomes para o repositório:
 
 ## ⚙️ Seeders e Dados Iniciais
 
-- **Roles**: `admin`, `user`, `manager`
-- **Permissões básicas**: `create_users`, `edit_users`, `delete_users`, etc.
-- **Usuário administrador** padrão com acesso total
+- **Roles**: `role_administrator`, `user_administrator`
+- **Super Usuário** padrão com acesso total
 - Seeders automatizados executáveis via `php artisan db:seed`
 
 ---
@@ -96,4 +95,3 @@ Sugestões de nomes para o repositório:
 - [Laravel Sanctum](https://laravel.com/docs/sanctum)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
 - [Laravel Logging](https://laravel.com/docs/logging)
-- [Audit Trails com Laravel (Medium)](https://medium.com)
