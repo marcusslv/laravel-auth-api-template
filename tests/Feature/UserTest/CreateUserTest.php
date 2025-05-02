@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\UserTest;
 
+use App\Enums\RolesEnum;
 use App\Events\User\UserCreatedEvent;
 use App\Models\User;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
@@ -12,12 +14,21 @@ class CreateUserTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->create();
+        $this->user->assignRole(RolesEnum::USER_ADMINISTRATOR->value);
+        $this->token = $this->user->createToken('token')->plainTextToken;
+    }
+
     public function test_if_user_administrator_can_create_user()
     {
         Event::fake();
-        $loggedUser = User::factory()->create();
 
-        $response = $this->actingAs($loggedUser, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->postJson('api/users', [
                 'name' => 'Test User',
                 'email' => 'test.user@exemplo.com',
@@ -51,9 +62,7 @@ class CreateUserTest extends TestCase
 
     public function test_if_user_administrator_cannot_create_user_with_invalid_data()
     {
-        $loggedUser = User::factory()->create();
-
-        $response = $this->actingAs($loggedUser, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->postJson('api/users', [
                 'name' => '',
                 'email' => '',

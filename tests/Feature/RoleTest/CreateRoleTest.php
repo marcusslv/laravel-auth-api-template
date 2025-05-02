@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\RoleTest;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,11 +12,19 @@ class CreateRoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->create();
+        $this->user->assignRole(RolesEnum::ROLE_ADMINISTRATOR->value);
+        $this->token = $this->user->createToken('token')->plainTextToken;
+    }
+
     public function test_if_administrator_role_can_create_role()
     {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->postJson('api/roles', [
                 'name' => 'test_role',
                 'guard_name' => 'sanctum',
@@ -37,9 +47,7 @@ class CreateRoleTest extends TestCase
 
     public function test_if_administrator_role_cannot_create_role_with_invalid_data()
     {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->postJson('api/roles', [
                 'name' => '',
                 'guard_name' => '',

@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\RoleTest;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -11,19 +13,28 @@ class UpdateRoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->create();
+        $this->user->assignRole(RolesEnum::ROLE_ADMINISTRATOR->value);
+        $this->token = $this->user->createToken('token')->plainTextToken;
+    }
+
     public function test_administrator_role_can_update_role()
     {
-        $user = User::factory()->create();
         $role = Role::create([
             'name' => 'test_role',
             'guard_name' => 'sanctum',
             'description' => 'Test role description',
         ]);
 
-        $response = $this->actingAs($user, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->putJson('api/roles/'.$role->id, [
                 'name' => 'updated_role',
-                'guard_name' => 'sanctum',
+                'guard_name' => 'api',
                 'description' => 'Updated role description',
             ]);
 
@@ -36,21 +47,20 @@ class UpdateRoleTest extends TestCase
         ]);
         $this->assertDatabaseHas('roles', [
             'name' => 'updated_role',
-            'guard_name' => 'sanctum',
+            'guard_name' => 'api',
             'description' => 'Updated role description',
         ]);
     }
 
     public function test_administrator_role_cannot_update_role_with_invalid_data()
     {
-        $user = User::factory()->create();
         $role = Role::create([
             'name' => 'test_role',
             'guard_name' => 'sanctum',
             'description' => 'Test role description',
         ]);
 
-        $response = $this->actingAs($user, 'sanctum')
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
             ->putJson('api/roles/'.$role->id, [
                 'name' => '',
                 'guard_name' => '',

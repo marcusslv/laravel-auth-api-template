@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RolesEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,10 @@ Route::post('/auth/logout', [\App\Http\Controllers\Auth\AuthController::class, '
 
 Route::apiResource('users', \App\Http\Controllers\User\UserController::class)
     ->only(['index', 'show', 'update', 'destroy', 'store'])
-    ->middleware('auth:sanctum')
+    ->middleware(['auth:sanctum', 'role:'.RolesEnum::USER_ADMINISTRATOR->value])
     ->withoutMiddleware([\Illuminate\Routing\Middleware\SubstituteBindings::class]);
 
 Route::apiResource('roles', \App\Http\Controllers\Role\RoleController::class)
     ->only(['index', 'show', 'update', 'store'])
-    ->middleware('auth:sanctum');
+    ->middleware(['auth:sanctum', 'role:'.RolesEnum::ROLE_ADMINISTRATOR->value])
+    ->withoutMiddleware([\Illuminate\Routing\Middleware\SubstituteBindings::class]);

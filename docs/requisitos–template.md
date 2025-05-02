@@ -41,24 +41,24 @@ Sugestões de nomes para o repositório:
 
 ## 📋 Requisitos Funcionais
 
-| Código | Descrição                                                                 |
-|--------|---------------------------------------------------------------------------|
-| RF01   | O sistema deve permitir autenticação via token com Laravel Sanctum.       |
-| RF02   | O sistema deve registrar logs de login, logout e falhas de autenticação.  |
-| RF03   | O administrador deve poder gerenciar usuários via API.                    |
-| RF04   | O sistema deve permitir o gerenciamento de roles e permissões.            |
-| RF05   | O sistema deve proteger rotas com base nas permissões atribuídas.         |
+| Código | Descrição                                                               |
+|--------|-------------------------------------------------------------------------|
+| RF01   | O sistema deve permitir autenticação via token com Laravel Sanctum.     |
+| RF02   | O sistema deve registrar logs de login, logout e falhas de autenticação. |
+| RF03   | O administrador deve poder gerenciar usuários via API.                  |
+| RF04   | O sistema deve permitir o gerenciamento de roles e permissões.          |
+| RF05   | O sistema deve proteger rotas com base nas funções atribuídas.          |
 
 ---
 
 ## 👥 Histórias de Usuário
 
-| Código | História                                                                                   | Requisito Relacionado |
-|--------|---------------------------------------------------------------------------------------------|------------------------|
-| HU01   | Como usuário autenticado, desejo acessar recursos protegidos usando um token de acesso.    | RF01                   |
-| HU02   | Como administrador, desejo visualizar logs de login e logout para fins de auditoria.        | RF02                   |
-| HU03   | Como administrador, desejo criar, atualizar e excluir usuários pela API.                    | RF03                   |
-| HU04   | Como administrador, desejo controlar o acesso aos recursos com base em roles e permissões. | RF04, RF05             |
+| Código | História                                                                                | Requisito Relacionado |
+|--------|-----------------------------------------------------------------------------------------|------------------------|
+| HU01   | Como usuário autenticado, desejo acessar recursos protegidos usando um token de acesso. | RF01                   |
+| HU02   | Como administrador, desejo visualizar logs de login e logout para fins de auditoria.    | RF02                   |
+| HU03   | Como administrador, desejo criar, atualizar e excluir usuários pela API.                | RF03                   |
+| HU04   | Como administrador, desejo controlar o acesso aos recursos com base em roles.           | RF04, RF05             |
 
 ---
 
@@ -66,9 +66,9 @@ Sugestões de nomes para o repositório:
 
 - Autenticação com Laravel Sanctum (login, logout, token)
 - CRUD completo de usuários
-- CRUD completo de roles e permissões (via Spatie)
-- Proteção de rotas com middleware de permissões
-- Seeders para dados iniciais: roles, permissões e usuário admin
+- CRUD completo de roles (via Spatie)
+- Proteção de rotas com middleware de roles
+- Seeders para dados iniciais: roles e usuário admin
 - Logs de acesso em banco (login/logout/falha)
 
 ---

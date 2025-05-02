@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\RoleTest;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -11,18 +13,26 @@ class ReadRoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->create();
+        $this->user->assignRole(RolesEnum::ROLE_ADMINISTRATOR->value);
+        $this->token = $this->user->createToken('token')->plainTextToken;
+    }
+
     public function test_if_role_administrator_can_lists_all_roles_with_pagination(): void
     {
-        $this->withoutExceptionHandling();
-        $user = User::factory()->create();
         Role::create([
             'name' => 'test_role',
             'guard_name' => 'sanctum',
             'description' => 'Test role description',
         ]);
 
-        $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('roles.index'));
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
+            ->getJson('api/roles');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -63,16 +73,14 @@ class ReadRoleTest extends TestCase
 
     public function test_if_role_administrator_can_lists_all_roles_without_pagination(): void
     {
-        $this->withoutExceptionHandling();
-        $user = User::factory()->create();
         Role::create([
             'name' => 'test_role',
             'guard_name' => 'sanctum',
             'description' => 'Test role description',
         ]);
 
-        $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('roles.index', ['without_pagination' => true]));
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
+            ->getJson('api/roles?without_pagination=true');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -93,16 +101,14 @@ class ReadRoleTest extends TestCase
 
     public function test_it_shows_a_single_role()
     {
-        $this->withoutExceptionHandling();
-        $user = User::factory()->create();
         $role = Role::create([
             'name' => 'test_role',
-            'guard_name' => 'sanctum',
+            'guard_name' => 'api',
             'description' => 'Test role description',
         ]);
 
-        $response = $this->actingAs($user, 'sanctum')
-            ->getJson(route('roles.show', ['role' => $role->id]));
+        $response = $this->withHeader('Authorization', "Bearer $this->token")
+            ->getJson('api/roles/'.$role->id);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([

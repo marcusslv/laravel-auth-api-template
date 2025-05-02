@@ -22,9 +22,10 @@ class LogoutTest extends TestCase
     {
         Event::fake();
         $user = User::factory()->create();
-        $user->createToken('apiToken')->plainTextToken;
+        $token = $user->createToken('apiToken')->plainTextToken;
 
-        $response = $this->actingAs($user, 'sanctum')->postJson('api/auth/logout');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('api/auth/logout');
 
         $response->assertStatus(200);
         $response->assertJson([
