@@ -7,16 +7,6 @@ O template serve como ponto de partida reutilizável para novos projetos, garant
 
 ---
 
-## 📌 Nome do Projeto
-Sugestões de nomes para o repositório:
-
-- `laravel-auth-api-template`
-- `laravel-rbac-starter`
-- `laravel-core-access-template`
-- `laravel-secure-api-kit`
-
----
-
 ## 🎯 Objetivos
 
 - Implementar autenticação via API com Laravel Sanctum.

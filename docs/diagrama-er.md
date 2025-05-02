@@ -2,16 +2,18 @@
 
 ### 🔹 Tabela: `users`
 
-| Campo              | Tipo           | Restrições                    |
-|--------------------|----------------|-------------------------------|
-| id                 | BIGINT         | PK, Auto Increment            |
-| name               | VARCHAR(255)   | NOT NULL                      |
-| email              | VARCHAR(255)   | UNIQUE, NOT NULL              |
-| password           | VARCHAR(255)   | NOT NULL                      |
-| email_verified_at  | TIMESTAMP      | NULLABLE                      |
-| remember_token     | VARCHAR(100)   | NULLABLE                      |
-| created_at         | TIMESTAMP      | Auto                          |
-| updated_at         | TIMESTAMP      | Auto                          |
+| Campo            | Tipo           | Restrições                    |
+|------------------|----------------|-------------------------------|
+| id               | BIGINT         | PK, Auto Increment            |
+| name             | VARCHAR(255)   | NOT NULL                      |
+| email            | VARCHAR(255)   | UNIQUE, NOT NULL              |
+| password         | VARCHAR(255)   | NOT NULL                      |
+| email_verified_at | TIMESTAMP      | NULLABLE                      |
+| remember_token   | VARCHAR(100)   | NULLABLE                      |
+| created_at       | TIMESTAMP      | Auto                          |
+| updated_at       | TIMESTAMP      | Auto                          |
+| deleted_at       | TIMESTAMP      | NULLABLE                      |
+
 
 **Relacionamentos:**  
 - Muitos-para-muitos com `roles` (via `model_has_roles`)  
