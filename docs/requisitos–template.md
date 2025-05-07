@@ -31,13 +31,13 @@ O template serve como ponto de partida reutilizável para novos projetos, garant
 
 ## 📋 Requisitos Funcionais
 
-| Código | Descrição                                                               |
-|--------|-------------------------------------------------------------------------|
-| RF01   | O sistema deve permitir autenticação via token com Laravel Sanctum.     |
+| Código | Descrição                                                                |
+|--------|--------------------------------------------------------------------------|
+| RF01   | O sistema deve permitir autenticação via token com Laravel Sanctum.      |
 | RF02   | O sistema deve registrar logs de login, logout e falhas de autenticação. |
-| RF03   | O administrador deve poder gerenciar usuários via API.                  |
-| RF04   | O sistema deve permitir o gerenciamento de roles e permissões.          |
-| RF05   | O sistema deve proteger rotas com base nas funções atribuídas.          |
+| RF03   | O administrador deve poder gerenciar usuários via API.                   |
+| RF04   | O sistema deve permitir o gerenciamento de roles.                        |
+| RF05   | O sistema deve proteger rotas com base nas funções atribuídas.           |
 
 ---
 
