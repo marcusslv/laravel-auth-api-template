@@ -18,6 +18,7 @@ class CreateUserTest extends TestCase
     {
         parent::setUp();
 
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         $this->seed(RolesSeeder::class);
         $this->user = User::factory()->create();
         $this->user->assignRole(RolesEnum::USER_ADMINISTRATOR->value);
