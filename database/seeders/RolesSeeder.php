@@ -19,7 +19,7 @@ class RolesSeeder extends Seeder
 
             Role::create([
                 'name' => data_get($role, 'value'),
-                'guard_name' => 'web',
+                'guard_name' => 'api',
                 'description' => data_get($role, 'description'),
             ]);
         }
