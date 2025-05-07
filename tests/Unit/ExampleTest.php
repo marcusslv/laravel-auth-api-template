@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function testBasic()
+    public function test_basic()
     {
         $this->assertTrue(true);
     }

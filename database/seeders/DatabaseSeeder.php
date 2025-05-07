@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $roles = array_map(
-            fn($role) => data_get($role, 'value'),
+            fn ($role) => data_get($role, 'value'),
             RolesEnum::labels()
         );
 

@@ -46,13 +46,14 @@ class Setup extends Command
         foreach ($roles as $role) {
             if (Role::where('name', data_get($role, 'value'))->exists()) {
                 $this->info("Role {$role['value']} already exists.");
+
                 continue;
             }
 
             Role::create([
                 'name' => data_get($role, 'value'),
                 'guard_name' => 'api',
-                'description' => data_get($role, 'description')
+                'description' => data_get($role, 'description'),
             ]);
         }
     }
@@ -68,7 +69,7 @@ class Setup extends Command
         ]);
 
         $roles = array_map(
-            fn($role) => data_get($role, 'value'),
+            fn ($role) => data_get($role, 'value'),
             RolesEnum::labels()
         );
 
