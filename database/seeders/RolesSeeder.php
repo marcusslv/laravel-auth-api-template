@@ -13,6 +13,10 @@ class RolesSeeder extends Seeder
         $roles = RolesEnum::labels();
 
         foreach ($roles as $role) {
+            if (Role::where('name', data_get($role, 'value'))->exists()) {
+                continue;
+            }
+
             Role::create([
                 'name' => data_get($role, 'value'),
                 'guard_name' => 'api',
